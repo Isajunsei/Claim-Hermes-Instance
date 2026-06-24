@@ -1,0 +1,24 @@
+# 秘密鍵 — 絶対にコミットしない
+*.key
+*.pem
+*.ppk
+
+# ローカルのメール設定（.env.exampleはOK、.env本体はNG）
+.env
+
+# 実行ログ・状態ファイル（ローカルで生成されるもの）
+log.txt
+status.json
+SUCCESS.txt
+
+# タスクスケジューラ用に自動生成されるファイル
+task_start.ps1
+
+# Python キャッシュ
+__pycache__/
+*.pyc
+*.pyo
+
+# Windows
+Thumbs.db
+desktop.ini

@@ -1,0 +1,55 @@
+name: Hermes OCI Instance Claim
+
+on:
+  # 6時間ごとに自動起動（UTC基準）
+  schedule:
+    - cron: "0 */6 * * *"
+  # GitHubのActionsタブから手動でも起動できる
+  workflow_dispatch:
+
+jobs:
+  claim:
+    name: Try to claim Hermes OCI slot
+    runs-on: ubuntu-latest
+    timeout-minutes: 360   # 6時間（GitHub Actionsの上限）
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install OCI SDK
+        run: pip install oci
+
+      - name: Run claim script
+        env:
+          # OCI認証情報（GitHub Secrets から渡す）
+          OCI_USER_OCID:       ${{ secrets.OCI_USER_OCID }}
+          OCI_TENANCY_OCID:    ${{ secrets.OCI_TENANCY_OCID }}
+          OCI_FINGERPRINT:     ${{ secrets.OCI_FINGERPRINT }}
+          OCI_REGION:          ${{ secrets.OCI_REGION }}
+          OCI_API_KEY:         ${{ secrets.OCI_API_KEY }}
+          OCI_SSH_PUBLIC_KEY:  ${{ secrets.OCI_SSH_PUBLIC_KEY }}
+          # メール通知（GitHub Secrets から渡す）
+          NOTIFY_EMAIL:        ${{ secrets.NOTIFY_EMAIL }}
+          GMAIL_FROM:          ${{ secrets.GMAIL_FROM }}
+          GMAIL_APP_PASSWORD:  ${{ secrets.GMAIL_APP_PASSWORD }}
+          # GitHub Actions フラグ（自動で設定される）
+          GITHUB_ACTIONS: "true"
+        run: python claim_slot.py
+
+      - name: Upload logs as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: claim-logs-${{ github.run_id }}
+          path: |
+            log.txt
+            status.json
+            SUCCESS.txt
+          if-no-files-found: ignore
+          retention-days: 7
