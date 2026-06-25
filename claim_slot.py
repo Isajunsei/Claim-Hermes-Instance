@@ -24,8 +24,8 @@ OCPUS               = 2
 MEMORY_GB           = 12
 INSTANCE_NAME       = "Hermes"
 
-RETRY_INTERVAL_SECONDS = 90   # base wait between retries
-RETRY_JITTER_SECONDS   = 10   # actual wait = base ± jitter  → 80~100 s
+RETRY_INTERVAL_SECONDS = 135   # base wait between retries
+RETRY_JITTER_SECONDS   = 45   # actual wait = base ± jitter  → 80~100 s
 
 # GitHub Actions jobs have a 6-hour hard limit.
 # Stop looping with 10 minutes to spare so the job exits cleanly;
