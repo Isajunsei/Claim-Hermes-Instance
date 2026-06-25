@@ -20,8 +20,8 @@ AVAILABILITY_DOMAIN = "gjNP:AP-TOKYO-1-AD-1"
 SUBNET_ID           = "ocid1.subnet.oc1.ap-tokyo-1.aaaaaaaakqxd2jbmmraibf37rd7k2rctazsnwjjxbpypcnixcqu437wigi7a"
 IMAGE_ID            = "ocid1.image.oc1.ap-tokyo-1.aaaaaaaac6xgrmnpr676gm356kgsf2lr23e2e5ik6oigfuno3ybz3nul5riq"
 SHAPE               = "VM.Standard.A1.Flex"
-OCPUS               = 4
-MEMORY_GB           = 24
+OCPUS               = 2
+MEMORY_GB           = 12
 INSTANCE_NAME       = "Hermes"
 
 RETRY_INTERVAL_SECONDS = 90   # base wait between retries
