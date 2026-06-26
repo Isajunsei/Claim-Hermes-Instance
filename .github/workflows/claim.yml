@@ -7,6 +7,10 @@ on:
   # GitHubのActionsタブから手動でも起動できる
   workflow_dispatch:
 
+concurrency:
+  group: claim-hermes
+  cancel-in-progress: true
+
 jobs:
   claim:
     name: Try to claim Hermes OCI slot
