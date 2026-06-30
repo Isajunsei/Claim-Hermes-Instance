@@ -1,0 +1,23 @@
+OCIアカウント作ってPAYGにアップグレード
+
+OCIコンソールでSSHキーペアとAPIキーを生成
+
+claim_slot.pyのOCID等を友達のものに書き換え
+>>
+COMPARTMENT_ID       # 友達のOCID
+AVAILABILITY_DOMAIN  # 同じでOK
+SUBNET_ID            # 友達のサブネット
+IMAGE_ID             # 同じでOK
+
+
+GitHub Secretsを  すべて  OCI認証情報、友達の公開鍵  に差し替え
+
+
+セッティング、アクション、ジェネラル、Actions permissions を Allow all actions and reusable workflows
+に変更。
+
+
+
+
+
+
