@@ -18,9 +18,13 @@ OCI Always Free枠のAmpere A1インスタンスを自動でクレームする�
 >    - au PAYなどプリペイド系カードは弾かれることがあります（三井住友VISA等が確実）
 > 5. カード登録後、**「Upgrade your account」（Pay As You Go）** をクリック
 >
-> ### PAYGにしても請求はゼロ
-> Always Free範囲内（ARM 4OCPU/24GB RAM）で使う限り、**一切課金されません。**
-> PAYGにすることでARMインスタンスへの優先割り当てが受けられるようになります。
+> ### PAYGは「無料枠を超えたら課金される」契約
+> 2026年6月29日更新のOracle公式Always Free文書では、Ampere A1の無料分は
+> **月1,500 OCPU時間 / 9,000 GB時間（24時間運転なら概ね合計2 OCPU / 12GB）**です。
+> 現在の `claim_slot.py` も2 OCPU / 12GBに固定しています。
+>
+> PAYGでは無料分を超えた使用や対象外サービスを作成でき、その超過分が課金されます。
+> 予算は停止装置ではなく通知だけなので、「一切課金されない」とは断言しません。
 >
 > **このステップを飛ばすと、スクリプトを何週間回しても取れない可能性が高いです。**
 
@@ -37,7 +41,7 @@ OCI Always Free枠のAmpere A1インスタンスを自動でクレームする�
 
 ---
 
-> ## 💰 【推奨】万が一の請求に備えて：1ドルアラートを設定する
+> ## 💰 【必須】万が一の請求に備えて：最小額アラートを設定する
 >
 > PAYGにした後、意図しない課金が発生していないか監視するために予算アラートを設定しておくこと。
 >
@@ -47,11 +51,11 @@ OCI Always Free枠のAmpere A1インスタンスを自動でクレームする�
 > 3. 左メニュー → **「Budgets」**
 > 4. **「Create Budget」** をクリック
 > 5. 以下を入力：
->    - **Name**: `alert-1USD`
+>    - **Name**: `alert-minimum`
 >    - **Description**: `Notify if any charge occurs`
 >    - **Budget Scope**: Compartment（そのまま）
 >    - **Schedule**: Monthly（そのまま）
->    - **Budget Amount**: `1`
+>    - **Budget Amount**: `1`（契約通貨がJPYなら1円）
 > 6. 下にスクロールして **Budget Alert Rule** を設定：
 >    - **Threshold Metric**: Actual Spend
 >    - **Threshold Type**: **Absolute Amount** を選択
@@ -60,8 +64,9 @@ OCI Always Free枠のAmpere A1インスタンスを自動でクレームする�
 > 8. 右下の **「Create」** をクリック
 >
 > ### これで何が変わる？
-> 1ドル（約150円）でも請求が発生した瞬間にメールで通知が来ます。
-> Always Free範囲内で使っている限り通知は来ないので、**来たら即確認**してください。
+> 契約通貨の1単位に達したことをメールで知らせます。ただしOracle公式上、予算は
+> **soft limit（通知のみ）**で、評価は通常24時間ごとです。課金を物理的に止める機能ではありません。
+> 通知が来たら即確認し、Oracle Guardianでも毎日実コストを確認してください。
 
 ---
 
